@@ -23,15 +23,15 @@ RUN apk add --no-cache && \
     unzip sdk.zip && \
     rm sdk.zip && \
 # Download Android SDK
-   yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME && \
-  sdkmanager --update --sdk_root=$ANDROID_HOME && \
-  sdkmanager --sdk_root=$ANDROID_HOME "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
-      "platforms;android-${ANDROID_VERSION}" \
-      "platform-tools" \
-      "extras;android;m2repository" \
-      "extras;google;m2repository"
+    yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME && \
+    sdkmanager --update --sdk_root=$ANDROID_HOME && \
+    sdkmanager --sdk_root=$ANDROID_HOME "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
+        "platforms;android-${ANDROID_VERSION}" \
+        "platform-tools" \
+        "extras;android;m2repository" \
+        "extras;google;m2repository" && \
 # Install Fastlane
-RUN apk add build-base git ruby && \
+    apk add build-base git ruby ruby-dev && \
     gem install rake && \
     gem install fastlane -NV && \
     gem install bundler
