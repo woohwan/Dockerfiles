@@ -31,7 +31,7 @@ RUN apk add --no-cache && \
         "extras;android;m2repository" \
         "extras;google;m2repository" && \
 # Install Fastlane
-    apk add build-base git ruby ruby-dev && \
+    apk add build-base git ruby ruby-dev bash && \
     gem install rake && \
     gem install fastlane -NV && \
     gem install bundler
