@@ -1,17 +1,13 @@
 FROM gcr.io/kaniko-project/executor:debug AS kaniko
-FROM alpine:3.18
+FROM amazoncorretto:17.0.8
 
-RUN apk --update add sudo git openssh-client yq bash wget
+RUN yum -y update && \ 
+    yum -y install git ssh bash wget
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
+    chmod a+x /usr/local/bin/yq
 
 COPY --from=kaniko /kaniko/ /kaniko/
 
-RUN apk add --no-cache &&\
-    wget -O /etc/apk/keys/amazoncorretto.rsa.pub https://apk.corretto.aws/amazoncorretto.rsa.pub && \
-    echo "https://apk.corretto.aws" >> /etc/apk/repositories && \
-    apk update &&\
-    apk add amazon-corretto-17
-
 ENV PATH $PATH:/usr/local/bin:/kaniko
 ENV DOCKER_CONFIG /kaniko/.docker/
-ENV DOCKER_CREDENTIAL_GCR_CONFIG /kaniko/.config/gcloud/docker_credential_gcr_config.json
 ENV SSL_CERT_DIR /kaniko/ssl/certs
